@@ -1,0 +1,4 @@
+﻿  Main.cpp
+C:\Users\marko\OneDrive\Desktop\RG\proj\Hangman\Main.cpp(596,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\marko\OneDrive\Desktop\RG\proj\Hangman\Main.cpp(597,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  proj.vcxproj -> C:\Users\marko\OneDrive\Desktop\RG\proj\Hangman\x64\Debug\proj.exe
