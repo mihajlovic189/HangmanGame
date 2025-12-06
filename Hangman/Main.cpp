@@ -19,7 +19,6 @@
 void drawRect(float x, float y, float w, float h, float r, float g, float b, float a);
 void initFreeType(const char* fontPath, unsigned int fontSize); 
 void renderText(const std::string &text, float x, float y, float scale, float r, float g, float b); 
-void drawTextHybrid(const std::string& text, float ndcX, float ndcY, float scale, float r, float g, float b);
 void drawLetter(char c, float x, float y, float cellW, float cellH, float a);
 void calculateScore(); 
 
@@ -233,19 +232,6 @@ void calculateScore();
         }
     }
 
-    static void drawText(const std::string& text, float startX, float startY, float cellW, float cellH, float spacingFactor, float a){
-        float x = startX;
-        for(char c : text){
-            if(c==' ') 
-            { 
-                x += cellW * spacingFactor; 
-                continue; 
-            }
-            drawLetter(c, x, startY, cellW, cellH, a);
-            x += cellW * spacingFactor; 
-        }
-    }
-
     void drawInputBuffer() {
         if (!wordMode)
             return;
@@ -289,7 +275,7 @@ void calculateScore();
 
     void drawTriedLetters() {
 
-        drawTextHybrid("ATTEMPTED LETTERS:", -0.95f, 0.61f, 0.7f, 1.0f, 1.0f, 1.0f);
+        renderText("ATTEMPTED LETTERS:", -0.95f, 0.61f, 0.7f, 1.0f, 1.0f, 1.0f);
 
         if(!gs.tried.empty()){
             std::string tried;
@@ -297,13 +283,13 @@ void calculateScore();
                 tried += c;
                 tried += ' ';
             }
-            drawTextHybrid(tried, -0.55f, 0.61f, 0.7f, 1.0f, 1.0f, 0.3f);
+            renderText(tried, -0.55f, 0.61f, 0.7f, 1.0f, 1.0f, 0.3f);
         }
     }
 
     void drawTriedWords() {
 
-        drawTextHybrid("ATTEMPTED WORDS:", -0.95f, 0.70f, 0.7f, 1.0f, 1.0f, 1.0f);
+        renderText("ATTEMPTED WORDS:", -0.95f, 0.70f, 0.7f, 1.0f, 1.0f, 1.0f);
 
         if (!gs.triedWords.empty()) {
 
@@ -313,7 +299,7 @@ void calculateScore();
                 tried += "  ";  
             }
 
-            drawTextHybrid(tried, -0.57f, 0.70f, 0.7f, 1.0f, 1.0f, 0.3f);
+            renderText(tried, -0.57f, 0.70f, 0.7f, 1.0f, 1.0f, 0.3f);
         }
     }
 
@@ -328,7 +314,7 @@ void calculateScore();
 
         float x = -0.99f;
         for(const auto& line : lines){
-            drawTextHybrid(line, x, 0.95f, 0.5f, 1.0f, 1.0f, 1.0f);
+            renderText(line, x, 0.95f, 0.5f, 1.0f, 1.0f, 1.0f);
             x += 0.35f;
         }
     }
@@ -343,9 +329,9 @@ void calculateScore();
         float spacing = 1.1f;
         
         if(res)
-            drawTextHybrid(message, startX, startY, cellW * 10.0f, 0.0f, 1.0f, 0.0f);
+            renderText(message, startX, startY, cellW * 10.0f, 0.0f, 1.0f, 0.0f);
         else
-			drawTextHybrid(message, startX, startY, cellW * 10.0f, 1.0f, 0.0f, 0.0f);
+            renderText(message, startX, startY, cellW * 10.0f, 1.0f, 0.0f, 0.0f);
     }
 
     void drawHangman() {
@@ -395,8 +381,8 @@ void calculateScore();
         std::string scoreText = "SCORE: " + std::to_string(currentScore);
         std::string bestText = "BEST: " + std::to_string(bestScore);
 
-        drawTextHybrid(scoreText, -0.95f, 0.79f, 0.8f, 1.0f, 1.0f, 0.0f);
-        drawTextHybrid(bestText, -0.95f, 0.88f, 0.8f, 0.0f, 1.0f, 0.0f);
+        renderText(scoreText, -0.95f, 0.79f, 0.8f, 1.0f, 1.0f, 0.0f);
+        renderText(bestText, -0.95f, 0.88f, 0.8f, 0.0f, 1.0f, 0.0f);
     }
 
     bool alreadyTried(char c){
@@ -522,22 +508,22 @@ void calculateScore();
             else if (k.type == KeyType::Tab) {
                 label = "TAB";
                 drawRect(k.x + k.w / 2, k.y + k.h / 2, k.w * 0.8f, k.h * 0.8f, r, g, b, a);
-                drawTextHybrid(label, k.x + 0.027f, k.y + 0.03f, k.w * 5.6f, 1.0f, 1.0f, 1.0f);
+                renderText(label, k.x + 0.027f, k.y + 0.03f, k.w * 5.6f, 1.0f, 1.0f, 1.0f);
             }
             else if (k.type == KeyType::Enter) {
                 label = "ENTER";
                 drawRect(k.x + k.w / 2, k.y + k.h / 2, k.w, k.h * 0.8f, r, g, b, a);
-                drawTextHybrid(label, k.x + 0.003f, k.y + 0.03f, k.w * 5.6f, 1.0f, 1.0f, 1.0f);
+                renderText(label, k.x + 0.003f, k.y + 0.03f, k.w * 5.6f, 1.0f, 1.0f, 1.0f);
             }
             else if (k.type == KeyType::Backspace) {
                 label = "DEL";
                 drawRect(k.x + k.w / 2, k.y + k.h / 2, k.w * 0.8f, k.h * 0.8f, r, g, b, a);
-                drawTextHybrid(label, k.x + 0.027f, k.y + 0.03f, k.w * 5.6f, 1.0f, 1.0f, 1.0f);
+                renderText(label, k.x + 0.027f, k.y + 0.03f, k.w * 5.6f, 1.0f, 1.0f, 1.0f);
             }
             else if (k.type == KeyType::Reset) {
                 label = "RESET";
                 drawRect(k.x + k.w / 2, k.y + k.h / 2, k.w, k.h * 0.8f, r, g, b, 1.0f);
-                drawTextHybrid(label, k.x + 0.003f, k.y + 0.03f, k.w * 5.6f, 1.0f, 1.0f, 1.0f);
+                renderText(label, k.x + 0.003f, k.y + 0.03f, k.w * 5.6f, 1.0f, 1.0f, 1.0f);
             }
         }
     }
@@ -644,34 +630,17 @@ void calculateScore();
         }
     }
 
-    void updateWindowTitle(GLFWwindow* win){
-        std::string title = wordMode?"UNOS RIJECI (ENTER / TAB): ":"Hangman: ";
-        title += gs.current;
+    void drawResult(){
         if(gs.finished)
         {
 			drawWinLoss(gs.win);
-            title += gs.win?" | POBEDA":" | PORAZ"; 
         }
-        glfwSetWindowTitle(win, title.c_str());
     }
 
     // Helper funkcija: konverzija NDC (-1 do 1) u screen space (0 do širina/visina)
     void ndcToScreen(float ndcX, float ndcY, float &screenX, float &screenY, int width, int height) {
         screenX = (ndcX + 1.0f) * 0.5f * width;
         screenY = (1.0f - ndcY) * 0.5f * height; // flip Y jer je NDC inverzno
-    }
-
-    // HYBRID TEXT RENDERING - koristi FreeType ako je dostupan, inace bitmap font
-    void drawTextHybrid(const std::string& text, float ndcX, float ndcY, float scale, float r, float g, float b){
-        // Ako je FreeType aktivan, koristi ga
-        if(textShader > 0 && !Characters.empty()){
-            renderText(text, ndcX, ndcY, scale, r, g, b);
-        } else {
-            // Fallback na stari bitmap font sistem
-            // Konvertuj NDC u bitmap koordinate (aproksimacija)
-            float bitmapScale = scale * 0.15f; // scaling factor
-            drawText(text, ndcX, ndcY, bitmapScale, bitmapScale * 1.4f, 1.1f, 1.0f);
-        }
     }
 
     void initFreeType(const char* fontPath, unsigned int fontSize){
@@ -790,7 +759,7 @@ void calculateScore();
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glDrawArrays(GL_TRIANGLES, 0, 6);
 
-            x += (ch.Advance >> 6) * scale;
+            x += (ch.Advance >> 6) * scale; // Deli sa 64 (bit shift = efikasnije od /64)
         }
         glBindVertexArray(0);
         glBindTexture(GL_TEXTURE_2D, 0);
@@ -827,8 +796,8 @@ void calculateScore();
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        unsigned int colorProgram = createShader("color.vert","color.frag");
-        if(!colorProgram) {
+        shaderProgram = createShader("color.vert","color.frag");
+        if(!shaderProgram) {
             glfwTerminate();
             return -1;
         }
@@ -838,7 +807,6 @@ void calculateScore();
             glfwTerminate();
             return -1;
         }
-        shaderProgram = colorProgram;
     
         initRectVAO();
         initTextureQuad();
@@ -918,10 +886,8 @@ void calculateScore();
 
             glfwPollEvents();  
 
-            if (gs.finished && gs.win) {
-                calculateScore();
-            }
-
+            calculateScore();
+            
             glClear(GL_COLOR_BUFFER_BIT);
 
             drawBlackboard();
@@ -936,7 +902,7 @@ void calculateScore();
             drawKeyboard();
             drawScore(); 
 
-            updateWindowTitle(window);
+            drawResult();
             glfwSwapBuffers(window);
 
             frameCount++;

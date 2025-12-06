@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+﻿#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <vector>
@@ -8,14 +8,14 @@ unsigned int rectVAO, rectVBO, circVAO = 0, circVBO = 0, arcVAO, arcVBO;
 const int CIRC_SLICES = 14;
 
 void initRectVAO() {
-    float verts[] = { -0.5f,-0.5f, -0.5f,0.5f,0.5f,0.5f,0.5f,-0.5f };
-    glGenVertexArrays(1, &rectVAO);
-    glGenBuffers(1, &rectVBO);
-    glBindVertexArray(rectVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, rectVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    float verts[] = { -0.5f,-0.5f, -0.5f,0.5f,0.5f,0.5f,0.5f,-0.5f }; // Pravougaonik
+    glGenVertexArrays(1, &rectVAO); // Kreira 1 VAO, ID čuva u rectVAO
+    glGenBuffers(1, &rectVBO); // Kreira buffer
+    glBindVertexArray(rectVAO); // "Aktivira" ovaj VAO za konfigurisanje
+    glBindBuffer(GL_ARRAY_BUFFER, rectVBO); // Aktivira bufer
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW); // Šalje podatke u GPU memoriju
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0); // Objašnjava GPU-u kako da čita podatke iz VBO-a
+	glEnableVertexAttribArray(0);  // Uključi location 0 (pozicija)
 }
 
 void initCircleVAO() {

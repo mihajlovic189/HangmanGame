@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+﻿#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <vector>
@@ -11,10 +11,10 @@ unsigned int gallowsTex = 0;
 
 void initTextureQuad() {
     float verts[] = {
-        -0.5f,-0.5f,0.0f,0.0f,
-        -0.5f,0.5f,0.0f,1.0f,
-        0.5f,0.5f,1.0f,1.0f,
-        0.5f,-0.5f,1.0f,0.0f
+        -0.5f,-0.5f,0.0f,0.0f, // Donji levi ugao
+        -0.5f,0.5f,0.0f,1.0f,  // Gornji levi
+        0.5f,0.5f,1.0f,1.0f,   // Gornji desni
+        0.5f,-0.5f,1.0f,0.0f   // Donji desni
     };
     glGenVertexArrays(1, &texVAO);
     glGenBuffers(1, &texVBO);
@@ -24,7 +24,7 @@ void initTextureQuad() {
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(1);  // Uključi location 1 (texture koordinate)
 }
 
 void drawStudentTexture() {
